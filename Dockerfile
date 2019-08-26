@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     apt-get purge --autoremove -y curl && \
     rm -rf /var/lib/apt/lists/*
 ENV CUDA_VERSION 10.1.234
+ENV CUDA_COMPAT_VERSION cuda10.1
 ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
 RUN mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
@@ -33,10 +34,11 @@ ENV NVIDIA_REQUIRE_CUDA "cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tes
 # [2] https://github.com/tensorflow/tensorflow/blob/r2.0/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda \
-        libcudnn7=7.6.0.64-1+cuda10.1 \
-        libcudnn7-dev=7.6.0.64-1+cuda10.1
+        libcudnn7=7.6.0.64-1+${CUDA_COMPAT_VERSION} \
+        libcudnn7-dev=7.6.0.64-1+${CUDA_COMPAT_VERSION}
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libnvinfer5=5.1.5-1+cuda10.1 \
-        libnvinfer-dev=5.1.5-1+cuda10.1
+        libnvinfer5=5.1.5-1+${CUDA_COMPAT_VERSION} \
+        libnvinfer-dev=5.1.5-1+${CUDA_COMPAT_VERSION}
 
+RUN conda install -y cudatoolkit
 USER $NB_USER
