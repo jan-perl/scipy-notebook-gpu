@@ -11,14 +11,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
     apt-get purge --autoremove -y curl && \
     rm -rf /var/lib/apt/lists/*
-ENV CUDA_VERSION 10.1.234
-ENV CUDA_COMPAT_VERSION cuda10.1
+ENV CUDA_VERSION 10.2.89
+ENV CUDA_COMPAT_VERSION cuda10.2
 ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
 RUN mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
 RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda \
-        cuda-compat-10-1 && \
+        cuda-compat-10-2 && \
     rm -rf /var/lib/apt/lists/*
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
@@ -41,4 +41,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libnvinfer-dev=5.1.5-1+${CUDA_COMPAT_VERSION}
 
 RUN conda install -y cudatoolkit
+RUN pip install -U memory_profiler
 USER $NB_USER
