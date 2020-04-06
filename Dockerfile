@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     rm -rf /var/lib/apt/lists/*
 ENV CUDA_VERSION 10.2.89
 ENV CUDA_COMPAT_VERSION cuda10.2
-ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
+ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
 RUN mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -26,7 +26,7 @@ ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=410,driver<411"
+ENV NVIDIA_REQUIRE_CUDA "cuda>=10.2 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=410,driver<411"
 
 # Install TensorFlow dependencies [1], [2].
 #
@@ -34,11 +34,11 @@ ENV NVIDIA_REQUIRE_CUDA "cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tes
 # [2] https://github.com/tensorflow/tensorflow/blob/r2.0/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
 RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda \
-        libcudnn7=7.6.0.64-1+${CUDA_COMPAT_VERSION} \
-        libcudnn7-dev=7.6.0.64-1+${CUDA_COMPAT_VERSION}
+        libcudnn7=7.6.5.32-1+${CUDA_COMPAT_VERSION} \
+        libcudnn7-dev=7.6.5.32-1+${CUDA_COMPAT_VERSION}
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libnvinfer5=5.1.5-1+${CUDA_COMPAT_VERSION} \
-        libnvinfer-dev=5.1.5-1+${CUDA_COMPAT_VERSION}
+        libnvinfer5=7.0.0-1+${CUDA_COMPAT_VERSION} \
+        libnvinfer-dev=7.0.0-1+${CUDA_COMPAT_VERSION}
 
 RUN conda install -y cudatoolkit
 RUN pip install -U memory_profiler
