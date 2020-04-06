@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libcudnn7=7.6.5.32-1+${CUDA_COMPAT_VERSION} \
         libcudnn7-dev=7.6.5.32-1+${CUDA_COMPAT_VERSION}
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libnvinfer5=7.0.0-1+${CUDA_COMPAT_VERSION} \
+        libnvinfer7=7.0.0-1+${CUDA_COMPAT_VERSION} \
         libnvinfer-dev=7.0.0-1+${CUDA_COMPAT_VERSION}
 
 RUN conda install -y cudatoolkit
