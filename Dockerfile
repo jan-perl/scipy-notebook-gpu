@@ -41,5 +41,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libnvinfer-dev=7.0.0-1+${CUDA_COMPAT_VERSION}
 
 RUN conda install -y cudatoolkit
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	rcs subversion
+RUN pip install jupytext --upgrade
+RUN jupyter notebook --generate-config -y
+
+RUN echo 'c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager"' >> ~/.jupyter/jupyter_notebook_config.py
+RUN echo 'c.ContentsManager.default_jupytext_formats = "ipynb,py"' >> ~/.jupyter/jupyter_notebook_config.py
+COPY addl_config.py /
+RUN cat /addl_config.py >> ~/.jupyter/jupyter_notebook_config.py
+RUN cat ~/.jupyter/jupyter_notebook_config.py
 RUN pip install -U memory_profiler
 USER $NB_USER
