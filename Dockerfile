@@ -46,8 +46,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install jupytext --upgrade
 RUN jupyter notebook --generate-config -y
 
-RUN echo 'c.NotebookApp.contents_manager_class = "jupytext.TextFileContentsManager"' >> ~/.jupyter/jupyter_notebook_config.py
-RUN echo 'c.ContentsManager.default_jupytext_formats = "ipynb,py"' >> ~/.jupyter/jupyter_notebook_config.py
 COPY addl_config.py /
 RUN cat /addl_config.py >> ~/.jupyter/jupyter_notebook_config.py
 RUN cat ~/.jupyter/jupyter_notebook_config.py
