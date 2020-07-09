@@ -50,4 +50,5 @@ COPY addl_config.py /
 RUN cat /addl_config.py >> ~/.jupyter/jupyter_notebook_config.py
 RUN cat ~/.jupyter/jupyter_notebook_config.py
 RUN pip install -U memory_profiler
+RUN pip install -U Xlwt Openpyxl xlsxwriter
 USER $NB_USER
